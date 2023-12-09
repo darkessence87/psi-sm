@@ -1,0 +1,55 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>100</x><y>50</y><w>390</w><h>350</h></coordinates><panel_attributes>template=0: IState
+BaseContext
+--
+bg=green
++ alias Func : std::function&lt;ProcessResult()&gt;
+# m_mutex : std::recursive_mutex
+# m_state : std::unique_ptr&lt;IState&gt;
+# m_posted : std::deque&lt;Func&gt;
+# m_deferred : std::deque&lt;Func&gt;
+# m_queue : std::deque&lt;Func&gt;
+-
++ process_event&lt;Event&gt; ( const Event &amp; )
++ post_event&lt;Event&gt; ( const Event &amp; )
++ transit&lt;NextState&gt; (  )
++ currentState ( ) : std::optional&lt;IState *&gt;
+-
+# transit_impl&lt;NextState&gt; (  )
+# process_event_impl&lt;Event&gt; ( const Event &amp; ) : ProcessResult
+/# process_queue ( )/
+# queueSize ( ) : size_t</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>100</x><y>450</y><w>390</w><h>210</h></coordinates><panel_attributes>template=0: IState
+BaseState
+--
+bg=yellow
+# m_name : String
+# m_context : BaseContext&lt;IState&gt; *
+-
+/+ name ( ) : String/
+# BaseState ( String ) : ctor
+/# ~BaseState ( ) : dtor/
+# transit&lt;NextState&gt; ( postEvent : bool ) : ProcessResult
+# defer_event ( ) : ProcessResult
+# discard_event ( ) : ProcessResult
+# post_event&lt;Event&gt; ( const Event &amp; )
+# context&lt;DerivedContext&gt; ( ) : DerivedContext *</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>270</x><y>390</y><w>50</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+r1=0..1</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>510</x><y>60</y><w>220</w><h>80</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
+/IState/
+-
+/+ name ( ) : String/
+/+ react ( const Event &amp; ) : ProcessResult/</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>130</y><w>190</w><h>370</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>170;10;170;350;10;350</additional_attributes></element><element><id>UMLClass</id><coordinates><x>810</x><y>60</y><w>140</w><h>80</h></coordinates><panel_attributes>Event
+-
+TriviallyCopyable</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>70</y><w>110</w><h>40</h></coordinates><panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>90;20;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>810</x><y>460</y><w>140</w><h>200</h></coordinates><panel_attributes>ProcessResult
+&lt;&lt;enum class&gt;&gt;
+-
++ UnknownContext
++ UnknownState
++ UnconsumedEvent
++ DeferredEvent
++ DiscardedEvent
++ PostedEvent
++ TransitState</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>520</y><w>380</w><h>40</h></coordinates><panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>360;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>100</y><w>110</w><h>400</h></coordinates><panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>90;380;40;380;40;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>340</y><w>380</w><h>190</h></coordinates><panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>360;170;290;170;290;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>100</y><w>380</w><h>120</h></coordinates><panel_attributes>lt=&lt;..
+&lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>360;10;330;10;330;100;10;100</additional_attributes></element></diagram>
