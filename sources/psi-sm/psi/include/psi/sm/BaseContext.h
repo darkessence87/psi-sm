@@ -35,8 +35,6 @@ namespace psi::sm {
  * - IState is a state interface with at least one 'ProcessResult react(const T &event)' method:
  *      virtual ProcessResult react(const EvExample&) { return ProcessResult::UnconsumedEvent; }
  * 
- * Usage example: common/examples/sm/EntryPoint.cpp
- * 
  * @todo requires small optimizations in events passing through sequences
  * 
  * @tparam IState 
