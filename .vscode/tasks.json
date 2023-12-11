@@ -80,7 +80,7 @@
                 "--build",
                 "${workspaceFolder}/build/${workspaceFolderBasename}",
                 "--config",
-                "Debug",
+                "Release",
                 "-j6"
             ],
             "options": {
