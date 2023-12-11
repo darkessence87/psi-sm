@@ -12,8 +12,8 @@ enum class ProcessResult
 
     UnconsumedEvent,    /// returned if no reaction is implemented by state for specified event
     DeferredEvent,      /// returned if event should be postponed and processed in another state
-    DiscardedEvent,     /// returned if event if finally processed
-    PostedEvent,        /// returned if event is has be processed immediately after current reaction
+    DiscardedEvent,     /// returned if event is finally processed
+    PostedEvent,        /// returned if event has to be processed immediately after current reaction
     TransitState,       /// returned if new state is created by context
 };
 
