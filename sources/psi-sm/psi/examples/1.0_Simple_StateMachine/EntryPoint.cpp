@@ -17,5 +17,5 @@ int main()
     context.process_event(EvSubstract(40));
     context.process_event(EvSubstract(40));
 
-    PSI_EXAMPLE_LOG("result: " << extClass.getSomeValue());
+    LOG_TRACE("result: " << extClass.getSomeValue());
 }

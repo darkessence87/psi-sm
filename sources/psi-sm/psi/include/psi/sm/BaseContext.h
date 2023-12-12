@@ -7,17 +7,17 @@
 #include <mutex>
 #include <optional>
 
-#ifdef PSI_EXAMPLE
+#ifdef PSI_LOGGER
+#include "psi/logger/Logger.h"
+#else
 #include <iostream>
 #include <sstream>
-#define PSI_EXAMPLE_LOG(x)                                                                                             \
+#define LOG_TRACE(x)                                                                                                   \
     do {                                                                                                               \
         std::ostringstream os;                                                                                         \
         os << x;                                                                                                       \
         std::cout << os.str() << std::endl;                                                                            \
     } while (0)
-#else
-#error "Provide your own logger"
 #endif
 
 #include "BaseState.h"
@@ -66,37 +66,37 @@ public:
 
         switch (rs) {
         case ProcessResult::UnknownState:
-            // PSI_EXAMPLE_LOG("Unknown state");
+            // LOG_TRACE("Unknown state");
             break;
 
         case ProcessResult::DeferredEvent:
             m_deferred.emplace_back([this, ev]() {
-                // PSI_EXAMPLE_LOG("[" << m_state->name() << "] process deferred " << tools::objName(ev) << ". Queue size: " << queueSize());
+                // LOG_TRACE("[" << m_state->name() << "] process deferred " << tools::objName(ev) << ". Queue size: " << queueSize());
                 return process_event_impl(ev);
             });
-            // PSI_EXAMPLE_LOG("[" << m_state->name() << "] defer " << tools::objName(ev) << ". Queue size: " << queueSize());
+            // LOG_TRACE("[" << m_state->name() << "] defer " << tools::objName(ev) << ". Queue size: " << queueSize());
             break;
 
         case ProcessResult::TransitState:
-            // PSI_EXAMPLE_LOG("[" << m_state->name() << "] end transit by " << tools::objName(ev) << ". Queue size: " << queueSize());
+            // LOG_TRACE("[" << m_state->name() << "] end transit by " << tools::objName(ev) << ". Queue size: " << queueSize());
             process_queue();
             break;
 
         case ProcessResult::PostedEvent:
             m_posted.emplace_back([this, ev]() {
-                // PSI_EXAMPLE_LOG("[" << m_state->name() << "] process posted " << tools::objName(ev) << ". Queue size: " << queueSize());
+                // LOG_TRACE("[" << m_state->name() << "] process posted " << tools::objName(ev) << ". Queue size: " << queueSize());
                 return process_event_impl(ev);
             });
-            // PSI_EXAMPLE_LOG("[" << m_state->name() << "] posted " << tools::objName(ev) << ". Queue size: " << queueSize());
+            // LOG_TRACE("[" << m_state->name() << "] posted " << tools::objName(ev) << ". Queue size: " << queueSize());
             process_queue();
             break;
 
         case ProcessResult::UnconsumedEvent:
-            // PSI_EXAMPLE_LOG("[" << m_state->name() << "] unconsumed " << tools::objName(ev) << ". Queue size: " << queueSize());
+            // LOG_TRACE("[" << m_state->name() << "] unconsumed " << tools::objName(ev) << ". Queue size: " << queueSize());
             break;
 
         case ProcessResult::DiscardedEvent:
-            // PSI_EXAMPLE_LOG("[" << m_state->name() << "] discarded " << tools::objName(ev) << ". Queue size: " << queueSize());
+            // LOG_TRACE("[" << m_state->name() << "] discarded " << tools::objName(ev) << ". Queue size: " << queueSize());
             break;
         }
     }
@@ -114,10 +114,10 @@ public:
         std::lock_guard<std::recursive_mutex> lock(m_mutex);
 
         m_posted.emplace_back([this, ev]() {
-            // PSI_EXAMPLE_LOG("[" << m_state->name() << "] process posted " << tools::objName(ev) << ". Queue size: " << queueSize());
+            // LOG_TRACE("[" << m_state->name() << "] process posted " << tools::objName(ev) << ". Queue size: " << queueSize());
             return process_event_impl(ev);
         });
-        // PSI_EXAMPLE_LOG("[" << m_state->name() << "] post " << tools::objName(ev) << ". Queue size: " << queueSize());
+        // LOG_TRACE("[" << m_state->name() << "] post " << tools::objName(ev) << ". Queue size: " << queueSize());
     }
 
     /**
@@ -160,9 +160,9 @@ protected:
         const auto newSt = st->name();
         if (m_state) {
             const auto oldSt = m_state->name();
-            PSI_EXAMPLE_LOG("[" << oldSt << "] => [" << newSt << "] transition");
+            LOG_TRACE("[" << oldSt << "] => [" << newSt << "] transition");
         } else {
-            PSI_EXAMPLE_LOG("[" << newSt << "] Initialize state");
+            LOG_TRACE("[" << newSt << "] Initialize state");
         }
 
         m_state.reset(st);
@@ -179,7 +179,7 @@ protected:
     ProcessResult process_event_impl(const EventType &ev)
     {
         // if (m_state) {
-        //     PSI_EXAMPLE_LOG("[" << m_state->name() << "] react " << tools::objName(ev) << ". Queue size: " << queueSize());
+        //     LOG_TRACE("[" << m_state->name() << "] react " << tools::objName(ev) << ". Queue size: " << queueSize());
         // }
         return m_state ? m_state->react(ev) : ProcessResult::UnknownState;
     }
@@ -192,7 +192,7 @@ protected:
      */
     virtual void process_queue()
     {
-        // PSI_EXAMPLE_LOG("m_posted: " << m_posted.size() << ", m_deferred: " << m_deferred.size()
+        // LOG_TRACE("m_posted: " << m_posted.size() << ", m_deferred: " << m_deferred.size()
         //                        << ", m_queue: " << m_queue.size());
 
         m_queue.insert(m_queue.begin(), m_posted.begin(), m_posted.end());
@@ -215,7 +215,7 @@ protected:
             switch (rs) {
             case ProcessResult::DeferredEvent:
                 m_deferred.emplace_back(fn);
-                // PSI_EXAMPLE_LOG("[" << m_state->name() << "] re-defer event. Queue size: " << queueSize());
+                // LOG_TRACE("[" << m_state->name() << "] re-defer event. Queue size: " << queueSize());
                 break;
 
             case ProcessResult::TransitState:
@@ -224,12 +224,12 @@ protected:
 
             case ProcessResult::PostedEvent:
                 m_posted.emplace_back(fn);
-                // PSI_EXAMPLE_LOG("[" << m_state->name() << "] post event. Queue size: " << queueSize());
+                // LOG_TRACE("[" << m_state->name() << "] post event. Queue size: " << queueSize());
                 transitionFound = true;
                 break;
 
             case ProcessResult::DiscardedEvent:
-                // PSI_EXAMPLE_LOG("[" << m_state->name() << "] discard event. Queue size: " << queueSize());
+                // LOG_TRACE("[" << m_state->name() << "] discard event. Queue size: " << queueSize());
                 break;
             }
 
