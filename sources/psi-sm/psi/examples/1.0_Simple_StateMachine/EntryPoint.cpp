@@ -17,5 +17,5 @@ int main()
     context.process_event(EvSubstract(40));
     context.process_event(EvSubstract(40));
 
-    LOG_TRACE("result: " << extClass.getSomeValue());
+    LOG_TRACE_STATIC("result: " << extClass.getSomeValue());
 }

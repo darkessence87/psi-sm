@@ -39,8 +39,12 @@ message("Build out: ${BUILD_OUT}")
 # 3rd parties
 set( 3rdPARTY_DIR "${PROJECT_SOURCE_DIR}/3rdparty")
 
-if (EXISTS ${3rdPARTY_DIR}/psi/logger)
-    add_definitions(PSI_LOGGER)
+if (EXISTS ${3rdPARTY_DIR}/psi/include/psi/logger)
+    message("psi-logger found")
+    add_compile_definitions(PSI_LOGGER)
+    include_directories(${3rdPARTY_DIR}/psi/include)
+    link_directories(${3rdPARTY_DIR}/psi/lib/${SUB_DIR_LIBS})
+    link_libraries(psi-logger psi-shared)
 endif()
 
 # functions

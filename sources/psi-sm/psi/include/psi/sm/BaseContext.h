@@ -12,12 +12,13 @@
 #else
 #include <iostream>
 #include <sstream>
-#define LOG_TRACE(x)                                                                                                   \
+#define LOG_TRACE_STATIC(x)                                                                                            \
     do {                                                                                                               \
         std::ostringstream os;                                                                                         \
         os << x;                                                                                                       \
         std::cout << os.str() << std::endl;                                                                            \
     } while (0)
+#define LOG_TRACE(x) LOG_TRACE_STATIC(x)
 #endif
 
 #include "BaseState.h"
