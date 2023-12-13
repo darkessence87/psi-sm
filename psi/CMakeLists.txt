@@ -14,4 +14,4 @@ set(EXAMPLE_SRC
     examples/1.0_Simple_StateMachine/states/SomeState1.cpp
     examples/1.0_Simple_StateMachine/states/SomeState2.cpp
 )
-psi_make_examples("1.0_Simple_StateMachine" "${EXAMPLE_SRC}")
+psi_make_examples("1.0_Simple_StateMachine" "${EXAMPLE_SRC}" "")
