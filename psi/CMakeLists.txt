@@ -1,11 +1,5 @@
 include_directories(
-    ${psi_logger_dir}/psi/include
     include
-)
-
-link_directories(
-    ${psi_logger_dir}/build/bin/${CMAKE_BUILD_TYPE}
-    ${psi_shared_dir}/build/bin/${CMAKE_BUILD_TYPE}
 )
 
 set(TEST_SRC
