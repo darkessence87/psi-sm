@@ -89,9 +89,9 @@ if(NOT EXISTS psi_make_tests)
             return()
         endif()
 
-        include_directories(${3rdPARTY_DIR}/tests/include)
+        include_directories(${3rdPARTY_DIR}/psi-gtests/include)
         set(test_libs "gmock;gmock_main;gtest;gtest_main")
-        link_directories(${3rdPARTY_DIR}/tests/lib/${SUB_DIR_LIBS})
+        link_directories(${3rdPARTY_DIR}/psi-gtests/lib/${SUB_DIR_LIBS})
 
         set(fileName PSI_TEST_${name})
         add_executable(${fileName} ${PROJECT_SOURCE_DIR}/tests/EntryPoint.cpp ${src})
