@@ -18,7 +18,7 @@ class BaseState : public IState
 {
 public:
     /// @brief Short alias to base context.
-    using Context = typename BaseContext<IState>;
+    using Context = BaseContext<IState>;
 
     /// @brief Returns name of state.
     /// @return name of state
@@ -59,7 +59,7 @@ protected:
     ProcessResult transit(bool postEvent = false)
     {
         if (m_context) {
-            m_context->transit<NextState>();
+            m_context->template transit<NextState>();
             return postEvent ? ProcessResult::PostedEvent : ProcessResult::TransitState;
         }
 
@@ -118,7 +118,7 @@ protected:
 
     /// @brief pointer to context (state's parent)
     Context *m_context;
-    friend class Context;
+    friend class BaseContext<IState>;
 
 private:
     BaseState(const BaseState &) = delete;

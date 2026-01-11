@@ -50,7 +50,7 @@ public:
     using Func = std::function<ProcessResult()>;
 
     /// @brief Short alias to base state type.
-    using IBaseState = typename BaseState<IState>;
+    using IBaseState = BaseState<IState>;
 
     /**
      * @brief Processes event in accordence with current state.
@@ -68,6 +68,10 @@ public:
         switch (rs) {
         case ProcessResult::UnknownState:
             // LOG_TRACE("Unknown state");
+            break;
+
+        case ProcessResult::UnknownContext:
+            // LOG_TRACE("Unknown context");
             break;
 
         case ProcessResult::DeferredEvent:
@@ -231,6 +235,11 @@ protected:
 
             case ProcessResult::DiscardedEvent:
                 // LOG_TRACE("[" << m_state->name() << "] discard event. Queue size: " << queueSize());
+                break;
+
+            case ProcessResult::UnknownState:
+            case ProcessResult::UnknownContext:
+            case ProcessResult::UnconsumedEvent:
                 break;
             }
 
