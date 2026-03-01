@@ -11,7 +11,6 @@ class BaseContext;
 /**
  * @brief BaseState is class responsible for react on events and providing result of reaction.
  * 
- * @tparam IState 
  */
 template <typename IState>
 class BaseState : public IState
@@ -22,7 +21,7 @@ public:
 
     /// @brief Returns name of state.
     /// @return name of state
-    virtual const std::string &name() const
+    const std::string &name() const override
     {
         return m_name;
     }
@@ -44,7 +43,7 @@ protected:
      * @brief Destroy the Base State object
      * 
      */
-    virtual ~BaseState() = default;
+    virtual ~BaseState() override = default;
 
     /**
      * @brief Performs transition of context to new state.

@@ -29,7 +29,7 @@ namespace psi::sm {
 /**
  * @brief BaseContext class is a thread-safe state machine.
  * The concept is:
- * - only one state @BaseState<IState> exists at any time
+ * - only one state BaseState<IState> exists at any time
  * - events can be anything fast copyable
  * - posted events are always processed before deferred events
  * - deferred events are re-processed only after state is changed
@@ -38,7 +38,6 @@ namespace psi::sm {
  * 
  * @todo requires small optimizations in events passing through sequences
  * 
- * @tparam IState 
  */
 template <typename IState>
 class BaseContext

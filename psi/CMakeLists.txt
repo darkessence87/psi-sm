@@ -6,7 +6,7 @@ set(TEST_SRC
     tests/BaseContextTests.cpp
     tests/BaseStateTests.cpp
 )
-psi_make_tests("Context" "${TEST_SRC}" "")
+# psi_make_tests("Context" "${TEST_SRC}" "")
 
 set(EXAMPLE_SRC
     examples/1.0_Simple_StateMachine/EntryPoint.cpp

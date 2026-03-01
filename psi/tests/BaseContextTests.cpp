@@ -1,13 +1,12 @@
 
-#include "TestHelper.h"
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
+
+#include "psi/test/TestHelper.h"
 
 #include "psi/sm/BaseContext.h"
 #include "psi/sm/BaseState.h"
 
-using namespace ::testing;
 using namespace psi::sm;
+using namespace psi::test;
 
 class BaseContextTests : public Test
 {
